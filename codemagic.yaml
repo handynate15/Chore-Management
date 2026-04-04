@@ -1,0 +1,104 @@
+# ─── OnTrack - Codemagic CI/CD Configuration ─────────────────────────────────
+# This file tells Codemagic how to build OnTrack for iOS TestFlight distribution
+# Docs: https://docs.codemagic.io/yaml-quick-start/building-a-flutter-app/
+
+workflows:
+
+  # ── iOS TestFlight Workflow ─────────────────────────────────────────────────
+  ios-testflight:
+    name: OnTrack iOS TestFlight
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+
+    environment:
+      flutter: 3.35.4
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store        # Required for TestFlight
+        bundle_identifier: com.ontrack.ontrack
+
+      # Codemagic environment variables (set these in Codemagic dashboard):
+      vars:
+        APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
+        APP_STORE_CONNECT_KEY_IDENTIFIER: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        APP_STORE_CONNECT_PRIVATE_KEY: $APP_STORE_CONNECT_PRIVATE_KEY
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+
+      - name: Install CocoaPods dependencies
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+
+      - name: Flutter build iOS release
+        script: |
+          flutter build ipa --release \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        # Add your testers' emails here (your family):
+        # beta_groups:
+        #   - Family
+
+      email:
+        recipients:
+          - your@email.com   # ← Replace with your email
+        notify:
+          success: true
+          failure: true
+
+  # ── Android APK Workflow (bonus) ────────────────────────────────────────────
+  android-release:
+    name: OnTrack Android APK
+    max_build_duration: 30
+    instance_type: linux_x2
+
+    environment:
+      flutter: 3.35.4
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+
+    scripts:
+      - name: Get Flutter packages
+        script: flutter pub get
+
+      - name: Build Android APK
+        script: flutter build apk --release
+
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
+
+    publishing:
+      email:
+        recipients:
+          - your@email.com   # ← Replace with your email
+        notify:
+          success: true
+          failure: false
