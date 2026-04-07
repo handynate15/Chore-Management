@@ -96,6 +96,46 @@ class AppProvider extends ChangeNotifier {
 
     await box.put(parent1.id, parent1);
     await box.put(parent2.id, parent2);
+
+    // Seed demo children so the Kids section is visible on first launch
+    final demoChildren = [
+      AppUser()
+        ..id = _uuid.v4()
+        ..name = 'Child 1'
+        ..pin = '1111'
+        ..roleIndex = 1
+        ..colorIndex = 1   // teal
+        ..emoji = '🧒'
+        ..createdAt = DateTime.now(),
+      AppUser()
+        ..id = _uuid.v4()
+        ..name = 'Child 2'
+        ..pin = '2222'
+        ..roleIndex = 1
+        ..colorIndex = 2   // coral/rose
+        ..emoji = '👧'
+        ..createdAt = DateTime.now(),
+      AppUser()
+        ..id = _uuid.v4()
+        ..name = 'Child 3'
+        ..pin = '3333'
+        ..roleIndex = 1
+        ..colorIndex = 3   // sage green
+        ..emoji = '🧑'
+        ..createdAt = DateTime.now(),
+      AppUser()
+        ..id = _uuid.v4()
+        ..name = 'Child 4'
+        ..pin = '4444'
+        ..roleIndex = 1
+        ..colorIndex = 4   // lavender
+        ..emoji = '👦'
+        ..createdAt = DateTime.now(),
+    ];
+
+    for (final child in demoChildren) {
+      await box.put(child.id, child);
+    }
   }
 
   // ─── Auth ─────────────────────────────────────────────────────────────────

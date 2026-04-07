@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>OnTrack</string>
+	<string>OnTrackFam</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>OnTrack</string>
+	<string>OnTrackFam</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -28,15 +28,15 @@
 	<!-- ─── Permission Descriptions ──────────────────────────────────── -->
 	<!-- Camera - for chore photo verification -->
 	<key>NSCameraUsageDescription</key>
-	<string>OnTrack needs camera access so kids can take photos of completed chores for parent approval.</string>
+	<string>OnTrackFam needs camera access so kids can take photos of completed chores for parent approval.</string>
 
 	<!-- Photo Library - for selecting existing photos -->
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>OnTrack needs photo library access to upload chore completion photos.</string>
+	<string>OnTrackFam needs photo library access to upload chore completion photos.</string>
 
 	<!-- Photo Library Add - for saving photos -->
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>OnTrack needs permission to save chore photos to your photo library.</string>
+	<string>OnTrackFam needs permission to save chore photos to your photo library.</string>
 
 	<!-- Notifications - for chore reminders and approval alerts -->
 	<key>UIBackgroundModes</key>

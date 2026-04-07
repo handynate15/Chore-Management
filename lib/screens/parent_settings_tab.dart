@@ -289,7 +289,7 @@ class ParentSettingsTab extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('OnTrack',
+                  Text('OnTrackFam',
                       style: Theme.of(context).textTheme.titleMedium),
                   Text('Family Chore Manager',
                       style: Theme.of(context).textTheme.bodySmall),

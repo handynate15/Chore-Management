@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('OnTrack',
+                  Text('OnTrackFam',
                       style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                             fontWeight: FontWeight.w700,
                             color: AppTheme.textPrimary,
@@ -115,8 +115,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ...children.map((u) => _userTile(u, isParent: false)),
           ],
 
-          if (children.isEmpty && parents.isNotEmpty) ...[
-            const SizedBox(height: 16),
+          // Always show Kids section header even if empty
+          if (children.isEmpty) ...[
+            _sectionLabel(context, 'Kids'),
+            const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(

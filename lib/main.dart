@@ -39,18 +39,18 @@ void main() async {
   runApp(
     ChangeNotifierProvider.value(
       value: provider,
-      child: const OnTrackApp(),
+      child: const OnTrackFamApp(),
     ),
   );
 }
 
-class OnTrackApp extends StatelessWidget {
-  const OnTrackApp({super.key});
+class OnTrackFamApp extends StatelessWidget {
+  const OnTrackFamApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'OnTrack',
+      title: 'OnTrackFam',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: const LoginScreen(),
