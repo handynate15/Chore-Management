@@ -1,25 +1,22 @@
-# ─── OnTrackFam - Codemagic CI/CD Configuration ─────────────────────────────────
-# This file tells Codemagic how to build OnTrackFam for iOS TestFlight distribution
+# ─── OnTrackFam - Codemagic CI/CD Configuration ───────────────────────────────
 # Docs: https://docs.codemagic.io/yaml-quick-start/building-a-flutter-app/
 
 workflows:
 
-  # ── iOS TestFlight Workflow ─────────────────────────────────────────────────
+  # ── iOS TestFlight Workflow ──────────────────────────────────────────────────
   ios-testflight:
     name: OnTrackFam iOS TestFlight
     max_build_duration: 60
     instance_type: mac_mini_m2
 
-    integrations:
-      app_store_connect: codemagic   # ← References the App Store Connect key
-                                     #   you add in Codemagic Team Integrations
-
     environment:
       flutter: 3.35.4
       xcode: latest
       cocoapods: default
+      groups:
+        - ios_credentials    # ← pulls in the 3 variables you just added
       ios_signing:
-        distribution_type: app_store        # Required for TestFlight
+        distribution_type: app_store
         bundle_identifier: com.ontrackfam.app
 
     triggering:
@@ -30,19 +27,23 @@ workflows:
           include: true
 
     scripts:
-      - name: Set up code signing settings on Xcode project
+      - name: Set up code signing
         script: |
+          keychain initialize
+          app-store-connect fetch-signing-files \
+            com.ontrackfam.app \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
           xcode-project use-profiles
 
       - name: Get Flutter packages
-        script: |
-          flutter pub get
+        script: flutter pub get
 
-      - name: Install CocoaPods dependencies
-        script: |
-          find . -name "Podfile" -execdir pod install \;
+      - name: Install CocoaPods
+        script: find . -name "Podfile" -execdir pod install \;
 
-      - name: Flutter build iOS release
+      - name: Build iOS IPA
         script: |
           flutter build ipa --release \
             --export-options-plist=/Users/builder/export_options.plist
@@ -50,21 +51,22 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-      - flutter_drive.log
 
     publishing:
       app_store_connect:
-        auth: integration
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
 
       email:
         recipients:
-          - your@email.com   # ← Replace with your email
+          - handynate15@gmail.com
         notify:
           success: true
           failure: true
 
-  # ── Android APK Workflow (bonus) ────────────────────────────────────────────
+  # ── Android APK Workflow ─────────────────────────────────────────────────────
   android-release:
     name: OnTrackFam Android APK
     max_build_duration: 30
@@ -93,7 +95,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - your@email.com   # ← Replace with your email
+          - handynate15@gmail.com
         notify:
           success: true
           failure: false
