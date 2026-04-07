@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ontrack.ontrack"
+    namespace = "com.www.ontrack"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.ontrack.ontrack"
+        applicationId = "com.www.ontrack"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

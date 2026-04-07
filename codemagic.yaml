@@ -20,7 +20,7 @@ workflows:
       cocoapods: default
       ios_signing:
         distribution_type: app_store        # Required for TestFlight
-        bundle_identifier: com.ontrack.ontrack
+        bundle_identifier: com.www.ontrack
 
     triggering:
       events:
