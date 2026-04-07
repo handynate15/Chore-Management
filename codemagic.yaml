@@ -10,6 +10,10 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
 
+    integrations:
+      app_store_connect: codemagic   # ← References the App Store Connect key
+                                     #   you add in Codemagic Team Integrations
+
     environment:
       flutter: 3.35.4
       xcode: latest
@@ -17,12 +21,6 @@ workflows:
       ios_signing:
         distribution_type: app_store        # Required for TestFlight
         bundle_identifier: com.ontrack.ontrack
-
-      # Codemagic environment variables (set these in Codemagic dashboard):
-      vars:
-        APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
-        APP_STORE_CONNECT_KEY_IDENTIFIER: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        APP_STORE_CONNECT_PRIVATE_KEY: $APP_STORE_CONNECT_PRIVATE_KEY
 
     triggering:
       events:
@@ -58,9 +56,6 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
-        # Add your testers' emails here (your family):
-        # beta_groups:
-        #   - Family
 
       email:
         recipients:
